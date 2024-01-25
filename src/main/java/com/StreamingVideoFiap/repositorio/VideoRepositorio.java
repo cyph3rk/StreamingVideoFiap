@@ -7,9 +7,9 @@ import reactor.core.publisher.Mono;
 
 public interface VideoRepositorio extends ReactiveMongoRepository<Video, String> {
 
-//    Mono<Video> findByNome(String nome);
-
     Flux<Video> findAll();
 
+    Flux<Video> findByCategoria(String categoria);
 
+    Flux<Video> findByTitulo(String titulo);
 }

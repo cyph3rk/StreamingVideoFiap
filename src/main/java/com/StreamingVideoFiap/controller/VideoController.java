@@ -14,6 +14,12 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
+
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -25,6 +31,9 @@ public class VideoController {
 
     @Autowired
     private VideoService videoService;
+
+    @Autowired
+    private ReactiveMongoTemplate reactiveMongoTemplate;
 
     private final Validator validator;
 
@@ -44,9 +53,32 @@ public class VideoController {
         return videoService.findAll();
     }
 
+    @GetMapping("/paginado")
+    public Flux<Video> getAllPaginadas(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "dataPublicacao") String sortBy) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+
+        Query query = new Query().with(pageable);
+
+        return reactiveMongoTemplate.find(query, Video.class);
+    }
+
+    @GetMapping("/titulo/{titulo}")
+    public Flux<Video> buscarPorTitulo(@PathVariable String titulo) {
+        return videoService.buscarPorTitulo(titulo);
+    }
+
     @GetMapping("/{id}")
     public Mono<Video> buscarPorId(@PathVariable String id) {
         return videoService.buscarPorId(id);
+    }
+
+    @GetMapping("/categoria/{categoria}")
+    public Flux<Video> buscarPorCategoria(@PathVariable String categoria) {
+        return videoService.buscarPorCategoria(categoria);
     }
 
     @PostMapping
@@ -62,7 +94,6 @@ public class VideoController {
     }
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<Video> atualiza(@PathVariable String id, @Valid @RequestBody VideoForm videoForm_new) {
         var video_new = videoForm_new.toVideo();
         video_new.setId(id);

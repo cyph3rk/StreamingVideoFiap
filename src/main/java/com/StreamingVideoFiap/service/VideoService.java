@@ -45,14 +45,26 @@ public class VideoService {
 
     public Mono<Video> atualiza(Video video_new) {
         return buscarPorId(video_new.getId())
-                .flatMap(existingProduct -> {
-                    existingProduct.setId(video_new.getId());
-                    existingProduct.setTitulo(video_new.getTitulo());
-                    existingProduct.setDescricao(video_new.getDescricao());
-                    existingProduct.setUrl(video_new.getUrl());
-                    existingProduct.setDataPublicacao(video_new.getDataPublicacao());
-                    return videoRepositorio.save(existingProduct);
+                .flatMap(existingVideo -> {
+                    existingVideo.setId(video_new.getId());
+                    existingVideo.setTitulo(video_new.getTitulo());
+                    existingVideo.setDescricao(video_new.getDescricao());
+                    existingVideo.setUrl(video_new.getUrl());
+                    existingVideo.setDataPublicacao(video_new.getDataPublicacao());
+                    existingVideo.setCategoria(video_new.getCategoria());
+                    return videoRepositorio.save(existingVideo);
                 });
     }
 
+    public Flux<Video> buscarPorCategoria(String categoria) {
+        return videoRepositorio.findByCategoria(categoria)
+                .switchIfEmpty(monoResponseStatusNotFoundException())
+                .log();
+    }
+
+    public Flux<Video> buscarPorTitulo(String titulo) {
+        return videoRepositorio.findByTitulo(titulo)
+                .switchIfEmpty(monoResponseStatusNotFoundException())
+                .log();
+    }
 }

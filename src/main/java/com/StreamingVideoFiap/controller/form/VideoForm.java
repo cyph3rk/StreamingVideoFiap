@@ -27,8 +27,12 @@ public class VideoForm {
     @JsonProperty
     private String dataPublicacao;
 
+    @JsonProperty
+    @NotBlank(message = "Campo CATEGORIA é obrigatorio")
+    private String categoria;
+
     public Video toVideo() {
-        return new Video(titulo, descricao, url, dataPublicacao);
+        return new Video(titulo, descricao, url, dataPublicacao, categoria);
     }
 
 

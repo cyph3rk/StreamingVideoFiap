@@ -8,21 +8,24 @@ public class VideoCreator {
         return new Video("video 90",
                       "descricao 90",
                            "url 90",
-                   "01/01/1900");
+                   "01/01/1900",
+                "Terror");
     }
 
     public static Video createValidVideo() {
         return new Video("video 91",
                 "descricao 91",
                 "url 90",
-                "01/01/1901");
+                "01/01/1901",
+                "Comedia Romantica");
     }
 
     public static Video createdValidUpdatedVideo() {
         return new Video("video 92",
                 "descricao 92",
                 "url 90",
-                "01/01/1902");
+                "01/01/1902",
+                "Comedia Americana");
     }
 
 }

@@ -14,15 +14,17 @@ public class VideoTest {
         String descricao = "descricao 90";
         String url       = "url 90";
         String data      = "01/01/1900";
+        String categoria = "Comedia";
 
         // Act
-        Video video = new Video(titulo, descricao, url, data);
+        Video video = new Video(titulo, descricao, url, data, categoria);
 
         // Assert
         assertEquals(titulo, video.getTitulo());
         assertEquals(descricao, video.getDescricao());
         assertEquals(url, video.getUrl());
         assertEquals(data, video.getDataPublicacao());
+        assertEquals(categoria, video.getCategoria());
 
     }
 }

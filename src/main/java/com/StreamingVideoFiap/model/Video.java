@@ -26,11 +26,14 @@ public class Video {
 
     private String dataPublicacao;
 
-    public Video(String titulo, String descricao, String url, String dataPublicacao) {
+    private String categoria;
+
+    public Video(String titulo, String descricao, String url, String dataPublicacao, String categoria) {
         this.titulo = titulo;
         this.descricao = descricao;
         this.url = url;
         this.dataPublicacao = dataPublicacao;
+        this.categoria = categoria;
     }
 
 }

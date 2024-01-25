@@ -34,7 +34,7 @@ public class VideoServiceTest {
     @Test
     void testSave() {
         Video video = new Video("video 90", "descricao 90",
-                                  "url 90", "01/01/1900");
+                                  "url 90", "01/01/1900", "comedia");
 
         Mockito.when(videoService.save(Mockito.any(Video.class))).thenReturn(Mono.just(video));
 
@@ -48,9 +48,9 @@ public class VideoServiceTest {
         // Mock de dados
 
         Video video1 = new Video("video 91", "descricao 91",
-                                "url 90", "01/01/1901");
+                                "url 90", "01/01/1901", "Comedia");
         Video video2= new Video("video 92", "descricao 92",
-                                    "url 90", "01/01/1902");
+                                    "url 90", "01/01/1902", "Comedia Romantica");
 
         List<Video> videos = Arrays.asList(video1, video2);
 
@@ -60,7 +60,6 @@ public class VideoServiceTest {
         // Chama o método findAll
         Flux<Video> result = videoService.findAll();
 
-        // Verifica se o resultado contém as carteiras esperadas
         assertEquals(videos, result.collectList().block());
     }
 
