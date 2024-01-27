@@ -46,6 +46,18 @@ class VideoTestIT {
     }
 
     @Test
+    public void testeRelatorioSucesso() {
+
+        String url = "http://localhost:" + port + "/videos/relatorio";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, requestEntity, String.class);
+        Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
     public void testeDeletandoVideoSucesso() {
 
         String url = "http://localhost:" + port + "/videos";
@@ -129,13 +141,15 @@ class VideoTestIT {
     @Test
     public void testeBuscaVideoPorCategoriaSucesso() {
 
+        String randomWord = geraPalavraRandomica(8);
+
         String url = "http://localhost:" + port + "/videos";
 
         String requestBody = "{\"titulo\":\"Filme Teste 004\"," +
                 "\"descricao\":\"Cadastro do filme 004\"," +
                 "\"url\":\"www.teste004.com\"," +
                 "\"dataPublicacao\":\"04/04/1904\"," +
-                "\"categoria\":\"teste categoria 04\"}";
+                "\"categoria\":\"" + randomWord + "\"}";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -163,10 +177,7 @@ class VideoTestIT {
                     "\"descricao\":\"Cadastro do filme 004\"," +
                     "\"url\":\"www.teste004.com\"," +
                     "\"dataPublicacao\":\"04/04/1904\"," +
-                    "\"categoria\":\"teste categoria 04\"}]";
-
-            System.out.println("response: " + response.getBody() );
-            System.out.println("resp: "+ resp);
+                    "\"categoria\":\"" + randomWord + "\"}]";
 
             Assert.assertTrue(response.getBody() != null && response.getBody().contains(resp));
 
@@ -227,9 +238,11 @@ class VideoTestIT {
     @Test
     public void testeBuscaVideoPorTituloSucesso() {
 
+        String randomWord = geraPalavraRandomica(8);
+
         String url = "http://localhost:" + port + "/videos";
 
-        String requestBody = "{\"titulo\":\"Filme Teste 010 A\"," +
+        String requestBody = "{\"titulo\":\"" + randomWord + "\"," +
                 "\"descricao\":\"Cadastro do filme 010\"," +
                 "\"url\":\"www.teste010.com\"," +
                 "\"dataPublicacao\":\"10/10/1910\"," +
@@ -257,7 +270,7 @@ class VideoTestIT {
             Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
 
             String resp = "[{\"id\":\"" + id + "\"," +
-                    "\"titulo\":\"Filme Teste 010 A\"," +
+                    "\"titulo\":\"" + randomWord + "\"," +
                     "\"descricao\":\"Cadastro do filme 010\"," +
                     "\"url\":\"www.teste010.com\"," +
                     "\"dataPublicacao\":\"10/10/1910\"," +
@@ -273,5 +286,17 @@ class VideoTestIT {
         }
     }
 
+
+    private static String geraPalavraRandomica(int length) {
+        String allowedChars = "abcdefghijklmnopqrstuvwxyz";
+        Random random = new Random();
+        StringBuilder word = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            int randomIndex = random.nextInt(allowedChars.length());
+            char randomChar = allowedChars.charAt(randomIndex);
+            word.append(randomChar);
+        }
+        return word.toString();
+    }
 
 }

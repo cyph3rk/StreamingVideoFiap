@@ -21,7 +21,7 @@ import java.util.List;
 public class VideoServiceTest {
 
     @InjectMocks
-    private VideoService videoService;
+    private VideoServiceImpl videoService;
 
     @Mock
     private VideoRepositorio videoRepositorio;
