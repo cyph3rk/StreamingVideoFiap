@@ -12,6 +12,7 @@ import lombok.extern.jackson.Jacksonized;
 @NoArgsConstructor
 @AllArgsConstructor
 @Jacksonized
+@Builder
 public class VideoForm {
 
     @JsonProperty
